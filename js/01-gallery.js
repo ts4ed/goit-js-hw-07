@@ -3,15 +3,16 @@ import { galleryItems } from "./gallery-items.js";
 
 const galleryEl = document.querySelector(".gallery");
 const newGallery = gallery(galleryItems);
-const base = document.querySelector("body")
+const base = document.querySelector("body");
 window.addEventListener("keydown", esOnEvent);
 
 galleryEl.insertAdjacentHTML("beforeend", newGallery);
 galleryEl.addEventListener("click", onClickEvent);
 
 function gallery(galleryItems) {
-  return galleryItems.map(({ preview, original, descrption }) => {
-    return `<div class="gallery__item">
+  return galleryItems
+    .map(({ preview, original, descrption }) => {
+      return `<div class="gallery__item">
   <a class="gallery__link"  href="${original}">
     <img
       class="gallery__image"
@@ -21,13 +22,14 @@ function gallery(galleryItems) {
     />
   </a>
 </div>`;
-  }).join("");
+    })
+    .join("");
 }
 
 // preventDefault();
 
 function onClickEvent(elm) {
-  if (!elm.target.classlist.contains("gallery__image")) {
+  if (!elm.target.classList.contains("gallery__image")) {
     return;
   }
 
@@ -37,21 +39,17 @@ function onClickEvent(elm) {
       const instance = basicLightbox.create(`
     <img src="${el.original}" width="800" height="600" onclick="return false" >
 `);
-      
+      elm.preventDefault();
       instance.show();
-      
     }
-    
   }
-  
 }
 function esOnEvent() {
-  if (event.code === "Escape") {
-   console.log(`esc`);
+  if (
+    event.code === "Escape" &&
+    base.lastElementChild.classList[0] === "basicLightbox"
+  ) {
+    base.lastElementChild.remove();
   }
 }
-console.log(base.lastElementChild);
 
-
-// решить с переходом на новую страницу при открытии изображения 
-// при нажатии Escape  удаляется клас div с "плейлистом" через (textContent? )

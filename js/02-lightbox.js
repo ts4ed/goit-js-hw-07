@@ -5,7 +5,7 @@ const galleryEl = document.querySelector(".gallery");
 const newGallery = gallery(galleryItems);
 
 galleryEl.insertAdjacentHTML("beforeend", newGallery);
-galleryEl.addEventListener("click", onClickEvent);
+
 
 function gallery(galleryItems) {
   return galleryItems
@@ -16,9 +16,7 @@ function gallery(galleryItems) {
     })
     .join("");
 }
-function onClickEvent(elm) {
-  elm.preventDefault();
-}
+
 const lightbox = new SimpleLightbox(".gallery a", {
   captionDelay: 250,
   captionsData: "alt",

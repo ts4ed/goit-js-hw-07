@@ -4,7 +4,6 @@ import { galleryItems } from "./gallery-items.js";
 const galleryEl = document.querySelector(".gallery");
 const newGallery = gallery(galleryItems);
 const base = document.querySelector("body");
-window.addEventListener("keydown", esOnEvent);
 
 galleryEl.insertAdjacentHTML("beforeend", newGallery);
 galleryEl.addEventListener("click", onClickEvent);
@@ -25,31 +24,20 @@ function gallery(galleryItems) {
     })
     .join("");
 }
-
-// preventDefault();
-
 function onClickEvent(elm) {
-  if (!elm.target.classList.contains("gallery__image")) {
+  elm.preventDefault();
+  const size = elm.target.dataset.source;
+  if (!size) {
     return;
   }
+  const instance = basicLightbox.create(
+    `<img src="${size}"width="800" height="600">`
+  );
 
-  for (let i = 0; i < galleryItems.length; i += 1) {
-    const el = galleryItems[i];
-    if (elm.target.src === el.preview) {
-      const instance = basicLightbox.create(`
-    <img src="${el.original}" width="800" height="600" onclick="return false" >
-`);
-      elm.preventDefault();
-      instance.show();
+  instance.show();
+  window.addEventListener("keydown", (elm) => {
+    if (elm.code === "Escape") {
+      instance.close();
     }
-  }
+  });
 }
-function esOnEvent() {
-  if (
-    event.code === "Escape" &&
-    base.lastElementChild.classList[0] === "basicLightbox"
-  ) {
-    base.lastElementChild.remove();
-  }
-}
-

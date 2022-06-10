@@ -35,9 +35,14 @@ function onClickEvent(elm) {
   );
 
   instance.show();
-  window.addEventListener("keydown", (elm) => {
+  window.addEventListener("keydown", listener);
+  function listener(elm) {
     if (elm.code === "Escape") {
       instance.close();
+      window.removeEventListener("keydown", listener);
     }
-  });
+  }
 }
+
+
+      

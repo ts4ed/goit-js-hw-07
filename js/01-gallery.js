@@ -31,11 +31,14 @@ function onClickEvent(elm) {
     return;
   }
   const instance = basicLightbox.create(
-    `<img src="${size}"width="800" height="600">`
+    `<img src="${size}"width="800" height="600">`,
+    {
+      onShow: () => window.addEventListener("keydown", listener),
+      onClose: () => window.removeEventListener("keydown", listener),
+    }
   );
-
-  instance.show();
-  window.addEventListener("keydown", listener);
+  instance.show(listener(elm));
+ 
   function listener(elm) {
     if (elm.code === "Escape") {
       instance.close();
@@ -43,6 +46,3 @@ function onClickEvent(elm) {
     }
   }
 }
-
-
-      
